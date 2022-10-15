@@ -25,7 +25,7 @@ const Auth = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("hi");
+    console.log(form)
   };
 
   const switchMode = () => {
