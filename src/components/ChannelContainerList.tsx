@@ -6,21 +6,25 @@ import HospitalIcon from "../assets/hospital.png";
 import LogoutIcon from "../assets/logout.png";
 import TeamChannelList from "./TeamChannelList";
 import TeamChannelPreview from "./TeamChannelPreview";
-const SideBar = () => {
-  return (
+
+const cookies = new Cookies()
+const SideBar: ({ logout }: {
+  logout: any;
+}) => JSX.Element = ({ logout }) => {
+  return(
     <div className="channel-list__sidebar">
-      <div className="channel-list__sidebar__icon1">
-        <div className="icon1__inner">
-          <img src={HospitalIcon} width={30} />
+        <div className="channel-list__sidebar__icon1">
+            <div className="icon1__inner">
+                <img src={HospitalIcon} alt="Hospital" width="30" />
+            </div>
         </div>
-      </div>
-      <div className="channel-list__sidebar__icon1">
-        <div className="icon1__inner">
-          <img src={LogoutIcon} width={30} />
+        <div className="channel-list__sidebar__icon2">
+            <div className="icon1__inner" onClick={logout}>
+                <img src={LogoutIcon} alt="Logout" width="30" />
+            </div>
         </div>
-      </div>
     </div>
-  );
+  )
 };
 const CompanyHeader = () => {
   return (
@@ -29,22 +33,49 @@ const CompanyHeader = () => {
     </div>
   );
 };
-interface IChannelContainerListProps {} //define the props coming up in this
+interface IChannelContainerListProps {
+   isEditing: boolean | undefined,
+   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
+   isCreating: boolean | undefined,
+   setIsCreating: React.Dispatch<React.SetStateAction<boolean>>,
+   setCreateType:React.Dispatch<React.SetStateAction<string>>
+} //define the props coming up in this
+
 const ChannelContainerList: React.FunctionComponent<
   IChannelContainerListProps
-> = () => {
+> = ({isCreating,isEditing,setIsCreating,setCreateType,setIsEditing}) => {
+  const logout: () => void = () => {
+    cookies.remove('token')
+    cookies.remove('fullname')
+    cookies.remove('userId')
+    cookies.remove('avatarURL')
+    cookies.remove('username')
+    cookies.remove('hashedPassword')
+    cookies.remove('phoneNumber')
+
+    window.location.reload()
+  }
   return (
     <>
-      <SideBar />
+      <SideBar logout={logout} />
       <div className="channel-list__list__wrapper">
         <CompanyHeader />
         <ChannelSearch />
         <ChannelList
           filters={{}}
           //   channelRenderFilterFn={()=>{}}
-          List={(listProps) => <TeamChannelList {...listProps} type="team" />}
+          List={(listProps) => <TeamChannelList {...listProps} 
+          type="team" 
+          isCreating={isCreating}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          setIsCreating={setIsCreating}
+          se
+          />}
           Preview={(previewProps) => (
-            <TeamChannelPreview {...previewProps} type="team" />
+            <TeamChannelPreview {...previewProps} 
+            type="team" 
+            />
           )}
         />
         <ChannelList

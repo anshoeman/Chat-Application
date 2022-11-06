@@ -14,18 +14,40 @@ const initialState = {
   phoneNumber: "",
   avatarURL: "",
 };
-//*IMPORTANT:THIS IS TOGGLE WHICH WILL HELP US TO MANTAIN SIGN IN SIGN UP IN ONE PAGE
+/*IMPORTANT:THIS IS TOGGLE WHICH WILL HELP US TO MANTAIN SIGN IN SIGN UP IN ONE PAGE*/
+
 const Auth = () => {
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(true);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    console.log(form)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const { username, password, phoneNumber, avatarURL } = form;
+
+    const URL = 'http://localhost:5000/auth';
+    // const URL = 'https://medical-pager.herokuapp.com/auth';
+
+    const response = await axios.post(`${URL}/${isSignup ? 'signup' : 'login'}`, {
+      username, password, fullName: form.fullName, phoneNumber, avatarURL,
+    });
+
+    cookies.set('token', response.data.token);
+    cookies.set('username', username);
+    cookies.set('fullName', form.fullName);
+    cookies.set('userId', response.data.userId);
+
+    if (isSignup) {
+      cookies.set('phoneNumber', phoneNumber);
+      cookies.set('avatarURL', avatarURL);
+      cookies.set('hashedPassword', response.data.hashedPassword);
+    }
+
+    window.location.reload();
+
   };
 
   const switchMode = () => {
