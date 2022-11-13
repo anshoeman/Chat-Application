@@ -11,18 +11,18 @@ const cookies = new Cookies()
 const SideBar: ({ logout }: {
   logout: any;
 }) => JSX.Element = ({ logout }) => {
-  return(
+  return (
     <div className="channel-list__sidebar">
-        <div className="channel-list__sidebar__icon1">
-            <div className="icon1__inner">
-                <img src={HospitalIcon} alt="Hospital" width="30" />
-            </div>
+      <div className="channel-list__sidebar__icon1">
+        <div className="icon1__inner">
+          <img src={HospitalIcon} alt="Hospital" width="30" />
         </div>
-        <div className="channel-list__sidebar__icon2">
-            <div className="icon1__inner" onClick={logout}>
-                <img src={LogoutIcon} alt="Logout" width="30" />
-            </div>
+      </div>
+      <div className="channel-list__sidebar__icon2">
+        <div className="icon1__inner" onClick={logout}>
+          <img src={LogoutIcon} alt="Logout" width="30" />
         </div>
+      </div>
     </div>
   )
 };
@@ -34,16 +34,16 @@ const CompanyHeader = () => {
   );
 };
 interface IChannelContainerListProps {
-   isEditing: boolean | undefined,
-   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
-   isCreating: boolean | undefined,
-   setIsCreating: React.Dispatch<React.SetStateAction<boolean>>,
-   setCreateType:React.Dispatch<React.SetStateAction<string>>
+  isEditing: boolean | undefined,
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
+  isCreating: boolean | undefined,
+  setIsCreating: React.Dispatch<React.SetStateAction<boolean>>,
+  setCreateType: React.Dispatch<React.SetStateAction<string>>
 } //define the props coming up in this
 
 const ChannelContainerList: React.FunctionComponent<
   IChannelContainerListProps
-> = ({isCreating,isEditing,setIsCreating,setCreateType,setIsEditing}) => {
+> = ({ isCreating, isEditing, setIsCreating, setCreateType, setIsEditing }) => {
   const logout: () => void = () => {
     cookies.remove('token')
     cookies.remove('fullname')
@@ -63,25 +63,33 @@ const ChannelContainerList: React.FunctionComponent<
         <ChannelSearch />
         <ChannelList
           filters={{}}
-          //   channelRenderFilterFn={()=>{}}
-          List={(listProps) => <TeamChannelList {...listProps} 
-          type="team" 
-          isCreating={isCreating}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          setIsCreating={setIsCreating}
-          se
-          />}
+          List={(listProps) =>
+            <TeamChannelList
+              {...listProps}
+              type="team"
+              setIsEditing={setIsEditing}
+              isCreating={isCreating}
+              setIsCreating={setIsCreating}
+              setCreateType={setCreateType}
+            />}
           Preview={(previewProps) => (
-            <TeamChannelPreview {...previewProps} 
-            type="team" 
+            <TeamChannelPreview {...previewProps}
+              type="team"
             />
           )}
         />
         <ChannelList
           filters={{}}
           //   channelRenderFilterFn={()=>{}}
-          List={(listProps) => <TeamChannelList {...listProps} type="messaging" />}
+          List={(listProps) => 
+          <TeamChannelList 
+          {...listProps} 
+          type="messaging"
+          setIsEditing={setIsEditing}
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          setCreateType={setCreateType} />
+          }
           Preview={(previewProps) => (
             <TeamChannelPreview {...previewProps} type="messaging" />
           )}

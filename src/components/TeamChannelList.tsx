@@ -1,7 +1,7 @@
 import React from "react";
 import { APIErrorResponse, Channel, ErrorFromResponse } from "stream-chat";
 import { DefaultStreamChatGenerics } from "stream-chat-react/dist/types/types";
-import { AddChannel } from "../assets";
+import { AddChannelComponent } from "../assets";
 
 interface IChannelProps {
   error: ErrorFromResponse<APIErrorResponse> | null;
@@ -9,12 +9,20 @@ interface IChannelProps {
   loading?: boolean | undefined;
   children?: string;
   type?: string | null;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
+  isCreating: boolean | undefined,
+  setIsCreating: React.Dispatch<React.SetStateAction<boolean>>,
+  setCreateType:React.Dispatch<React.SetStateAction<string>>,
 }
 const TeamChannelList: React.FC<IChannelProps> = ({
   error = false,
   loading,
   type,
   children,
+  setCreateType,
+  setIsCreating,
+  setIsEditing,
+  isCreating
 }) => {
   if (error) {
     return type === "team" ? (
@@ -38,6 +46,12 @@ const TeamChannelList: React.FC<IChannelProps> = ({
             <p className="team-channel-list__header__title">
             {type === "team" ? "Channels" : "Direct Messages"}
             </p>
+            <AddChannelComponent
+            type={type==='team'?'team':'messaging'}
+            setIsEditing={setIsEditing}
+            setIsCreating={setIsCreating}
+            setCreateType={setCreateType}
+            />
         </div>
         {children}
   </div>

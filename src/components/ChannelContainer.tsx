@@ -39,7 +39,7 @@ const ChannelContainer: React.FC<IChannelContainer> = ({ isCreating, isEditing, 
       <div className="channel__container">
       <Channel
           EmptyStateIndicator={EmptyState}
-          Message={(messageProps, i) => <MessageText key={i} {...messageProps} />}
+          Message={TeamMessage}
       >
           <ChannelInner setIsEditing={setIsEditing} />
       </Channel>

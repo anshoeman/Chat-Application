@@ -14,7 +14,7 @@ const ChannelSearch = () => {
 
   const getChannels = async()=>{
     try {
-        //TODO:fetch channels
+        
         
     } catch (error) {
         setQuery('')

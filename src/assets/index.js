@@ -1,4 +1,4 @@
-export { AddChannel } from './AddChannel';
+export { AddChannelComponent } from './AddChannelComponent';
 export { ChannelInfo } from './ChannelInfo';
 export { CloseCreateChannel } from './CloseCreateChannel';
 export { InviteIcon } from './InviteIcon';
